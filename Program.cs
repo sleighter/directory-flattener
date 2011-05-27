@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace directory_flattener
+using System.Threading.Tasks;namespace directory_flattener
 {
     class Program
     {
@@ -46,13 +46,13 @@ namespace directory_flattener
 
             try
             {
-                foreach (var file in files)
+                Parallel.ForEach(files,new Action<string>(file =>
                 {
                     var targetFile = Path.Combine(targetDir, Path.GetFileName(file));
                     Console.WriteLine("Copying {0} to {1}", file, targetFile);
                     File.Copy(file, targetFile);
                     copied.Add(targetFile);
-                }
+                }));
             }
             catch(Exception ex)
             {
